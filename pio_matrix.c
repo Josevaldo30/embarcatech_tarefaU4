@@ -12,7 +12,6 @@
 #define botB 6
 
 uint16_t contador = 0;
-static volatile uint a = 1;
 static volatile uint32_t last_time = 0;
 
 #define NUM_LEDS 25 // Número de LEDs na matriz
@@ -177,32 +176,24 @@ int main(){
 }
 
 
-void gpio_irq_handler(uint gpio, uint32_t events){
-   
-    if(gpio==5){
-        contador++;
-        printf("A\n");
-    }
-    if(gpio==6){
-        contador--;
-        printf("B\n");
-
-        
-void gpio_irq_handler(uint gpio, uint32_t events);
+       
+void gpio_irq_handler(uint gpio, uint32_t events)
 {
     
     uint32_t current_time = to_us_since_boot(get_absolute_time());
-    printf("A = %d\n", a);
-   
+  
     if (current_time - last_time > 200000) 
     {
         last_time = current_time; 
-        printf("Mudanca de Estado do Led. A = %d\n", a);
-        gpio_put(ledV, !gpio_get(ledV)); 
-        a++;                                     
+        if(gpio==5){
+        contador++;
+        printf("A\n");
+        }
+        if(gpio==6){
+        contador--;
+        printf("B\n");                      
     }
 }
-
-    }
+  
 
 }
